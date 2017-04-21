@@ -1,5 +1,8 @@
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
+import com.teamdev.jxbrowser.chromium.DefaultLoadHandler;
+import com.teamdev.jxbrowser.chromium.LoadParams;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.net.*;
@@ -23,10 +26,8 @@ public class BrowserSample {
     // Constructor for Web Browser.
     public BrowserSample() {
        
-    	frame = new JFrame("Jive");
-        frame.setSize(700, 500);
-        frame.setVisible(true);
-         
+    	frame = new JFrame("Jive");        
+    	frame.setSize(1024, 768);
         browser = new Browser();
         browserView = new BrowserView(browser);
                       
@@ -57,7 +58,7 @@ public class BrowserSample {
         backButton = new JButton("< Back");
         backButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //actionBack();
+                browser.goBack();
             }
         });
         backButton.setEnabled(false);
@@ -65,7 +66,7 @@ public class BrowserSample {
         forwardButton = new JButton("Forward >");
         forwardButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //actionForward();
+                browser.goForward();
             }
         });
         forwardButton.setEnabled(false);
@@ -90,6 +91,8 @@ public class BrowserSample {
         frame.getContentPane().setLayout(new BorderLayout());
         frame.getContentPane().add(buttonPanel, BorderLayout.NORTH);
         frame.getContentPane().add(browserView, BorderLayout.CENTER);
+        
+        frame.setVisible(true);
     }
      
     // Exit this program.
@@ -98,7 +101,32 @@ public class BrowserSample {
     }
       
     // Load and show the page specified in the location text field.
-    private void actionGo() {
+    private void actionGo() {    	
+    	browser.setLoadHandler(new DefaultLoadHandler() {
+            public boolean onLoad(LoadParams params) {
+
+            	//enable or disable NavigationHistory
+            	if(browser.canGoBack()){
+            		backButton.setEnabled(true);
+            	}
+            	else
+            	{
+            		backButton.setEnabled(false);
+            	}
+            	
+            	if(browser.canGoForward())
+            	{
+            		forwardButton.setEnabled(true);
+            	}
+            	else
+            	{
+            		forwardButton.setEnabled(false);
+            	}
+            		
+                // Return false to continue loading
+                return false;
+            }
+        });
     	browser.loadURL(locationTextField.getText());
     }
          
