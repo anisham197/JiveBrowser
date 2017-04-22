@@ -73,6 +73,9 @@ public class Tab extends JPanel {
                 pane.remove(i);
                 TabHandler.tabCount--;
             }
+            if( pane.getTabCount() == 0){
+            	System.exit(0);
+            }
         }
  
         //we don't want to update UI for this button

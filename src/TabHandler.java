@@ -1,16 +1,6 @@
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class TabHandler extends JFrame {
 
@@ -29,13 +19,14 @@ public class TabHandler extends JFrame {
     	super(title);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    	
     	initMenuBar();
-    	add(pane);
     }
     
     public void runTest() {
         pane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
         setSize(new Dimension(1024, 768));
         setLocationRelativeTo(null);
+        
+    	getContentPane().add(pane, BorderLayout.CENTER);
         setVisible(true);
     }
      
@@ -52,6 +43,7 @@ public class TabHandler extends JFrame {
         fileMenu.setMnemonic(KeyEvent.VK_F);
         JMenuItem addTabMenuItem = new JMenuItem("New Tab",
                 KeyEvent.VK_X);
+        addTabMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
         addTabMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                	tabCount++;
@@ -67,6 +59,9 @@ public class TabHandler extends JFrame {
                 if (i != -1) {
                     pane.remove(i);
                     tabCount--;
+                }
+                if(pane.getTabCount() == 0){
+                	System.exit(0);
                 }
             }
         });
@@ -101,8 +96,9 @@ public class TabHandler extends JFrame {
     }
     
     private void addTab(int i){
-    	String title = "New Tab";
+    	String title = "New Tab " + i;
         pane.add(title, new JLabel(title));
         initTabComponent(i);
+        pane.setSelectedIndex(i);
     }
 }
