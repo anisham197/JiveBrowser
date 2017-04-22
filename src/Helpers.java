@@ -39,7 +39,7 @@ public class Helpers
 //
 //    }
 
-    private static Map<String, Date> sortByComparator(Map<String, Date> unsortMap, final boolean order)
+    private static Map<String, Date> sortByDate(Map<String, Date> unsortMap, final boolean order)
     {
 
         List<Entry<String, Date>> list = new LinkedList<Entry<String, Date>>(unsortMap.entrySet());
