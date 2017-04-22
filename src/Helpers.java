@@ -14,7 +14,7 @@ public class Helpers
 {
     public static boolean ASC = true;
     public static boolean DESC = false;
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
 //    public static void main(String[] args) throws ParseException
 //    {
@@ -39,7 +39,7 @@ public class Helpers
 //
 //    }
 
-    private static Map<String, Date> sortByDate(Map<String, Date> unsortMap, final boolean order)
+    public static Map<String, Date> sortByDate(Map<String, Date> unsortMap, final boolean order)
     {
 
         List<Entry<String, Date>> list = new LinkedList<Entry<String, Date>>(unsortMap.entrySet());

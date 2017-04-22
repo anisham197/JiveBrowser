@@ -12,7 +12,7 @@ public class TabHandler extends JFrame {
     public static void main(String[] args) {
      	TabHandler mainFrame = new TabHandler("Jive Browser");
     	mainFrame.addTab(0);
-    	mainFrame.runTest();
+    	mainFrame.initialize();
     }
     
     public TabHandler(String title) {
@@ -21,7 +21,7 @@ public class TabHandler extends JFrame {
     	initMenuBar();
     }
     
-    public void runTest() {
+    public void initialize() {
         pane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
         setSize(new Dimension(1024, 768));
         setLocationRelativeTo(null);
@@ -30,6 +30,12 @@ public class TabHandler extends JFrame {
         setVisible(true);
     }
      
+    private void addTab(int i){
+    	String title = "New Tab";
+        pane.add(title, new TabBrowser(pane));
+        initTabComponent(i);
+        pane.setSelectedIndex(i);
+    }
      
     private void initTabComponent(int i) {
         pane.setTabComponentAt(i,
@@ -41,8 +47,7 @@ public class TabHandler extends JFrame {
     	JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
-        JMenuItem addTabMenuItem = new JMenuItem("New Tab",
-                KeyEvent.VK_X);
+        JMenuItem addTabMenuItem = new JMenuItem("New Tab");
         addTabMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
         addTabMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -51,8 +56,8 @@ public class TabHandler extends JFrame {
             }
         });
         
-        JMenuItem closeTabMenuItem = new JMenuItem("Close Tab",
-                KeyEvent.VK_X);
+        JMenuItem closeTabMenuItem = new JMenuItem("Close Tab");
+        closeTabMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_MASK));
         closeTabMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	int i = pane.getSelectedIndex();
@@ -66,8 +71,7 @@ public class TabHandler extends JFrame {
             }
         });
         
-        JMenuItem closeWindowMenuItem = new JMenuItem("Close Window",
-                KeyEvent.VK_X);
+        JMenuItem closeWindowMenuItem = new JMenuItem("Close Window");
         closeWindowMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	System.exit(0);
@@ -85,6 +89,7 @@ public class TabHandler extends JFrame {
         historyMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                //TODO: History
+            	HistoryController.getInstance().printHistory();
             }
         });
        
@@ -93,12 +98,6 @@ public class TabHandler extends JFrame {
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);
         setJMenuBar(menuBar);
-    }
-    
-    private void addTab(int i){
-    	String title = "New Tab";
-        pane.add(title, new TabBrowser(pane));
-        initTabComponent(i);
-        pane.setSelectedIndex(i);
-    }
+    }  
+
 }
