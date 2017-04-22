@@ -1,16 +1,20 @@
+import java.io.IOException;
 import java.util.*;
 
 public class HistoryController {
 
 	private HashMap<String, Date> history;
 	private HistoryController() {
-		//TODO: initialize
-		history = new HashMap<>();
-		//TODO: Read from file
-		
-		
-		Collection<Integer> ints2 = gson.fromJson(json, collectionType);
-		
+
+		try {
+			history = Helpers.readHistory();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if(history == null )
+				history = new HashMap<>();
+		}
 	}
 
 	private static class HistoryCreator {
@@ -24,7 +28,12 @@ public class HistoryController {
 	public void addUrl(String url, Date timestamp){
 		history.put(url, timestamp);
 		//TODO Write to file
-		String json = gson.toJson(ints); ==> json is [1,2,3,4,5]
+		try {
+			Helpers.writeHistory(history);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public HashMap<String, Date> getHistory() {
