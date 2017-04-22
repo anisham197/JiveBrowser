@@ -110,6 +110,7 @@ public class TabBrowser extends JPanel{
         });
     	
     	browser.loadURL(locationTextField.getText());
+    	// TODO add history
     
     }
      
