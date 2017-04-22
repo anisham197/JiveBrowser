@@ -33,7 +33,7 @@ public class TabHandler extends JFrame {
      
     private void initTabComponent(int i) {
         pane.setTabComponentAt(i,
-                 new Tab(pane));
+                 new TabButtonComponent(pane));
     }    
  
     
