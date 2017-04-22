@@ -89,6 +89,7 @@ public class TabHandler extends JFrame {
         historyMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                //TODO: History
+            	HistoryController.getInstance().printHistory();
             }
         });
        

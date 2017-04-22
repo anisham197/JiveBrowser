@@ -2,10 +2,14 @@ import java.util.*;
 
 public class HistoryController {
 
-	HashMap<String, Date> history;
+	private HashMap<String, Date> history;
 	private HistoryController() {
 		//TODO: initialize
 		history = new HashMap<>();
+		//TODO: Read from file
+		
+		
+		Collection<Integer> ints2 = gson.fromJson(json, collectionType);
 		
 	}
 
@@ -18,6 +22,16 @@ public class HistoryController {
 	}
 	
 	public void addUrl(String url, Date timestamp){
-		
+		history.put(url, timestamp);
+		//TODO Write to file
+		String json = gson.toJson(ints); ==> json is [1,2,3,4,5]
+	}
+	
+	public HashMap<String, Date> getHistory() {
+		return history;
+	}
+	
+	public void printHistory(){
+		Helpers.printMap(Helpers.sortByDate(history, Helpers.DESC));
 	}
 }

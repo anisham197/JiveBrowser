@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import java.awt.*;
 import java.awt.event.*;
-
+import java.util.*;
  
 
 public class TabBrowser extends JPanel{
@@ -111,7 +111,8 @@ public class TabBrowser extends JPanel{
     	
     	browser.loadURL(locationTextField.getText());
     	// TODO add history
-    
+    	HistoryController.getInstance().addUrl(browser.getURL(), new Date());
+    	
     }
      
     
