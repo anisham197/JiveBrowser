@@ -1,0 +1,108 @@
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+public class TabHandler extends JFrame {
+
+    private final JTabbedPane pane = new JTabbedPane();
+    private JMenuItem tabComponentsItem;
+    private JMenuItem scrollLayoutItem;
+    public static int tabCount = 0;
+    
+    public static void main(String[] args) {
+     	TabHandler mainFrame = new TabHandler("Jive Browser");
+    	mainFrame.addTab(0);
+    	mainFrame.runTest();
+    }
+    
+    public TabHandler(String title) {
+    	super(title);
+    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    	
+    	initMenuBar();
+    	add(pane);
+    }
+    
+    public void runTest() {
+        pane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
+        setSize(new Dimension(1024, 768));
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+     
+     
+    private void initTabComponent(int i) {
+        pane.setTabComponentAt(i,
+                 new Tab(pane));
+    }    
+ 
+    
+    public void initMenuBar() {
+    	JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_F);
+        JMenuItem addTabMenuItem = new JMenuItem("New Tab",
+                KeyEvent.VK_X);
+        addTabMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               	tabCount++;
+            	addTab(tabCount);
+            }
+        });
+        
+        JMenuItem closeTabMenuItem = new JMenuItem("Close Tab",
+                KeyEvent.VK_X);
+        closeTabMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	int i = pane.getSelectedIndex();
+                if (i != -1) {
+                    pane.remove(i);
+                    tabCount--;
+                }
+            }
+        });
+        
+        JMenuItem closeWindowMenuItem = new JMenuItem("Close Window",
+                KeyEvent.VK_X);
+        closeWindowMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	System.exit(0);
+            }
+        });
+        
+        fileMenu.add(addTabMenuItem);
+        fileMenu.add(closeTabMenuItem);
+        fileMenu.add(closeWindowMenuItem);
+        
+        JMenu viewMenu = new JMenu("View");
+        fileMenu.setMnemonic(KeyEvent.VK_F);
+        JMenuItem historyMenuItem = new JMenuItem("History",
+                KeyEvent.VK_X);
+        historyMenuItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               //TODO: History
+            }
+        });
+       
+        viewMenu.add(historyMenuItem);
+        
+        menuBar.add(fileMenu);
+        menuBar.add(viewMenu);
+        setJMenuBar(menuBar);
+    }
+    
+    private void addTab(int i){
+    	String title = "New Tab";
+        pane.add(title, new JLabel(title));
+        initTabComponent(i);
+    }
+}
