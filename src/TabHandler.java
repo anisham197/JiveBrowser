@@ -96,8 +96,8 @@ public class TabHandler extends JFrame {
     }
     
     private void addTab(int i){
-    	String title = "New Tab " + i;
-        pane.add(title, new JLabel(title));
+    	String title = "New Tab";
+        pane.add(title, new TabBrowser(pane));
         initTabComponent(i);
         pane.setSelectedIndex(i);
     }
