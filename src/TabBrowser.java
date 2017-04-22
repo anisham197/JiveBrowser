@@ -1,6 +1,8 @@
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.DefaultLoadHandler;
 import com.teamdev.jxbrowser.chromium.LoadParams;
+import com.teamdev.jxbrowser.chromium.events.TitleEvent;
+import com.teamdev.jxbrowser.chromium.events.TitleListener;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
 
 import javax.swing.*;
@@ -18,17 +20,27 @@ public class TabBrowser extends JPanel{
     private Browser browser = new Browser();
     // Page location text field.
     private JTextField locationTextField;
-     
+    private final JTabbedPane pane; 
     // 
     
      
     // Constructor for Web Browser.
-    public TabBrowser() {
+    public TabBrowser(final JTabbedPane pane) {
     	this.setLayout(new BorderLayout());    	
         BrowserView mBrowserView = new BrowserView(browser);        
         mBrowserView.setVisible(true);               
         createButtonPanel();
         add(mBrowserView,BorderLayout.CENTER);
+        this.pane = pane;
+        browser.addTitleListener(new TitleListener(){
+
+			@Override
+			public void onTitleChange(TitleEvent event) {
+				pane.setTitleAt(pane.getSelectedIndex(),event.getTitle());				
+			}
+    		
+    	});
+
     }
     
     private void createButtonPanel()
@@ -91,12 +103,14 @@ public class TabBrowser extends JPanel{
             	{
             		forwardButton.setEnabled(false);
             	}
-            		
+            	            	
                 // Return false to continue loading
                 return false;
-            }
+            }          
         });
+    	
     	browser.loadURL(locationTextField.getText());
+    
     }
      
     
