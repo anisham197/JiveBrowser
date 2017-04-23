@@ -2,6 +2,7 @@ import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.DefaultLoadHandler;
 import com.teamdev.jxbrowser.chromium.LoadParams;
 import com.teamdev.jxbrowser.chromium.events.FailLoadingEvent;
+import com.teamdev.jxbrowser.chromium.events.FinishLoadingEvent;
 import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
 import com.teamdev.jxbrowser.chromium.events.NetError;
 import com.teamdev.jxbrowser.chromium.events.TitleEvent;
@@ -118,16 +119,23 @@ public class TabBrowser extends JPanel{
     	browser.loadURL(locationTextField.getText());
     	
     	browser.addLoadListener(new LoadAdapter() {
+    		
+    		 @Override
+    		    public void onFinishLoadingFrame(FinishLoadingEvent event) {
+    		        if (event.isMainFrame()) {
+    		        	HistoryController.getInstance().addUrl(browser.getURL(), new Date());
+    		        }
+    		    }
+    		 
     	    @Override
     	    public void onFailLoadingFrame(FailLoadingEvent event) {
     	        NetError errorCode = event.getErrorCode();
     	        if (errorCode == NetError.NAME_NOT_RESOLVED) {
     	        	browser.loadURL(GOOGLE_SEARCH + locationTextField.getText());
+    	        	HistoryController.getInstance().addUrl(browser.getURL(), new Date());
     	        }
     	    }
       	});
-    	// TODO add history
-    	HistoryController.getInstance().addUrl(browser.getURL(), new Date());
     	
     }
      
