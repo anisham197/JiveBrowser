@@ -9,16 +9,12 @@ public class TabHandler extends JFrame {
     private JMenuItem scrollLayoutItem;
     public static int tabCount = 0;
     
-    public static void main(String[] args) {
-     	TabHandler mainFrame = new TabHandler("Jive Browser");
-    	mainFrame.addTab(0);
-    	mainFrame.initialize();
-    }
     
     public TabHandler(String title) {
     	super(title);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    	
     	initMenuBar();
+    	addTab(0);
     }
     
     public void initialize() {
@@ -32,7 +28,18 @@ public class TabHandler extends JFrame {
      
     private void addTab(int i){
     	String title = "New Tab";
-        pane.add(title, new TabBrowser(pane));
+        pane.add(title, new TabBrowser(pane,i));
+        initTabComponent(i);
+        pane.setSelectedIndex(i);
+    }
+    
+    private void addHistoryTab(int i){
+    	
+    	String html = HistoryController.getInstance().printHistory();
+    	String title = "History";
+    	TabBrowser historyTab = new TabBrowser(pane,i);
+    	historyTab.setHTML(html);
+        pane.add(title,historyTab);
         initTabComponent(i);
         pane.setSelectedIndex(i);
     }
@@ -48,7 +55,9 @@ public class TabHandler extends JFrame {
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         JMenuItem addTabMenuItem = new JMenuItem("New Tab");
+        
         addTabMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
+        
         addTabMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                	tabCount++;
@@ -81,19 +90,21 @@ public class TabHandler extends JFrame {
         fileMenu.add(addTabMenuItem);
         fileMenu.add(closeTabMenuItem);
         fileMenu.add(closeWindowMenuItem);
+        fileMenu.setMnemonic(KeyEvent.VK_F);
         
         JMenu viewMenu = new JMenu("View");
-        fileMenu.setMnemonic(KeyEvent.VK_F);
-        JMenuItem historyMenuItem = new JMenuItem("History",
-                KeyEvent.VK_X);
+                
+        JMenuItem historyMenuItem = new JMenuItem("History");
+        
         historyMenuItem.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-               //TODO: History
-            	HistoryController.getInstance().printHistory();
+            public void actionPerformed(ActionEvent e) {            	            
+            	tabCount++;
+            	addHistoryTab(tabCount);
             }
         });
        
         viewMenu.add(historyMenuItem);
+        viewMenu.setMnemonic(KeyEvent.VK_V);
         
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);

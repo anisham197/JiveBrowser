@@ -9,8 +9,8 @@ public class HistoryController {
 		try {
 			history = Helpers.readHistory();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("HistoryException: "+e.getMessage());
+			//e.printStackTrace();
 		}finally {
 			if(history == null )
 				history = new HashMap<>();
@@ -31,8 +31,8 @@ public class HistoryController {
 		try {
 			Helpers.writeHistory(history);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("HistoryException: "+e.getMessage());
+			//e.printStackTrace();
 		}
 	}
 	
@@ -40,7 +40,7 @@ public class HistoryController {
 		return history;
 	}
 	
-	public void printHistory(){
-		Helpers.printMap(Helpers.sortByDate(history, Helpers.DESC));
+	public String printHistory(){
+		return Helpers.printMap(Helpers.sortByDate(history, Helpers.DESC));
 	}
 }
