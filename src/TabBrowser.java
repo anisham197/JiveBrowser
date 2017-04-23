@@ -1,6 +1,9 @@
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.DefaultLoadHandler;
 import com.teamdev.jxbrowser.chromium.LoadParams;
+import com.teamdev.jxbrowser.chromium.events.FailLoadingEvent;
+import com.teamdev.jxbrowser.chromium.events.LoadAdapter;
+import com.teamdev.jxbrowser.chromium.events.NetError;
 import com.teamdev.jxbrowser.chromium.events.TitleEvent;
 import com.teamdev.jxbrowser.chromium.events.TitleListener;
 import com.teamdev.jxbrowser.chromium.swing.BrowserView;
@@ -21,6 +24,8 @@ public class TabBrowser extends JPanel{
     // Page location text field.
     private JTextField locationTextField;
     private final JTabbedPane pane; 
+    
+    private static final String GOOGLE_SEARCH = "https://www.google.co.in/#newwindow=1&q=";
     // 
     
      
@@ -109,7 +114,18 @@ public class TabBrowser extends JPanel{
             }          
         });
     	
+    	// TODO: enable search
     	browser.loadURL(locationTextField.getText());
+    	
+    	browser.addLoadListener(new LoadAdapter() {
+    	    @Override
+    	    public void onFailLoadingFrame(FailLoadingEvent event) {
+    	        NetError errorCode = event.getErrorCode();
+    	        if (errorCode == NetError.NAME_NOT_RESOLVED) {
+    	        	browser.loadURL(GOOGLE_SEARCH + locationTextField.getText());
+    	        }
+    	    }
+      	});
     	// TODO add history
     	HistoryController.getInstance().addUrl(browser.getURL(), new Date());
     	
