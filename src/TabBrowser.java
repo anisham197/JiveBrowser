@@ -25,24 +25,29 @@ public class TabBrowser extends JPanel{
     // Page location text field.
     private JTextField locationTextField;
     private final JTabbedPane pane; 
+    private final int tabIndex; 
     
-    private static final String GOOGLE_SEARCH = "https://www.google.co.in/#newwindow=1&q=";
+    private static final String GOOGLE_SEARCH = "https://www.google.com/search?q=";
     // 
     
      
     // Constructor for Web Browser.
-    public TabBrowser(final JTabbedPane pane) {
+    public TabBrowser(final JTabbedPane pane,final int tabIndex) {
+    	
     	this.setLayout(new BorderLayout());    	
-        BrowserView mBrowserView = new BrowserView(browser);        
+        
+    	BrowserView mBrowserView = new BrowserView(browser);        
         mBrowserView.setVisible(true);               
         createButtonPanel();
         add(mBrowserView,BorderLayout.CENTER);
         this.pane = pane;
+        this.tabIndex = tabIndex;
+        
         browser.addTitleListener(new TitleListener(){
 
 			@Override
 			public void onTitleChange(TitleEvent event) {
-				pane.setTitleAt(pane.getSelectedIndex(),event.getTitle());				
+				pane.setTitleAt(tabIndex,event.getTitle());				
 			}
     		
     	});
@@ -87,6 +92,12 @@ public class TabBrowser extends JPanel{
         add(buttonPanel, BorderLayout.NORTH);
     }
     
+    //Set HTML of the browser to received value
+    public void setHTML(String html)
+    {
+    	browser.loadHTML(html);
+    }
+    
  // Load and show the page specified in the location text field.
     private void actionGo() {    	
     	browser.setLoadHandler(new DefaultLoadHandler() {
@@ -123,6 +134,7 @@ public class TabBrowser extends JPanel{
     		 @Override
     		    public void onFinishLoadingFrame(FinishLoadingEvent event) {
     		        if (event.isMainFrame()) {
+    		        	pane.setTitleAt(tabIndex,browser.getTitle());
     		        	HistoryController.getInstance().addUrl(browser.getURL(), new Date());
     		        }
     		    }

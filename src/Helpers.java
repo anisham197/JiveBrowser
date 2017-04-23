@@ -118,11 +118,14 @@ public class Helpers
     	
     }
     
-    public static void printMap(Map<String, Date> map)
+    public static String printMap(Map<String, Date> map)
     {
+    	String html="<!DOCTYPE html><html><head><title>History</title></head><body><h1>History</h1><table><tr><td>URL</td><td>Time</td></tr>";
         for (Entry<String, Date> entry : map.entrySet())
         {
-            System.out.println("Key : " + entry.getKey() + " Value : "+ sdf.format(entry.getValue()));
+            html+="<tr><td><a href='" + entry.getKey()+"'>"+ entry.getKey() + "</a></td><td>"+ sdf.format(entry.getValue())+"</td></tr>";
         }
+        html+="</table></body></html>";
+        return html;
     }
 }
