@@ -71,7 +71,7 @@ public class TabButtonComponent extends JPanel {
             int i = pane.indexOfTabComponent(TabButtonComponent.this);
             if (i != -1) {
                 pane.remove(i);
-                TabHandler.tabCount--;
+                BrowserWindow.tabCount--;
             }
             if( pane.getTabCount() == 0){
             	System.exit(0);

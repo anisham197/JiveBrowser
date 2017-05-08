@@ -16,7 +16,7 @@ import java.awt.event.*;
 import java.util.*;
  
 
-public class TabBrowser extends JPanel{
+public class BrowserTab extends JPanel{
 
 	
 	// These are the buttons for iterating through the page list.
@@ -32,7 +32,7 @@ public class TabBrowser extends JPanel{
     
      
     // Constructor for Web Browser.
-    public TabBrowser(final JTabbedPane pane,final int tabIndex) {
+    public BrowserTab(final JTabbedPane pane,final int tabIndex) {
     	
     	this.setLayout(new BorderLayout());    	
         
@@ -137,6 +137,7 @@ public class TabBrowser extends JPanel{
     		        	pane.setTitleAt(tabIndex,browser.getTitle());
     		        	HistoryController.getInstance().addUrl(browser.getURL(), new Date());
     		        }
+    		        
     		    }
     		 
     	    @Override
