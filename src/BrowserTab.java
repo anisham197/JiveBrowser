@@ -16,11 +16,11 @@ import java.awt.event.*;
 import java.util.*;
  
 
-public class TabBrowser extends JPanel{
+public class BrowserTab extends JPanel{
 
 	
 	// These are the buttons for iterating through the page list.
-    private JButton backButton, forwardButton;
+    private JButton backButton, forwardButton,goButton;
     private Browser browser = new Browser();
     // Page location text field.
     private JTextField locationTextField;
@@ -32,7 +32,7 @@ public class TabBrowser extends JPanel{
     
      
     // Constructor for Web Browser.
-    public TabBrowser(final JTabbedPane pane,final int tabIndex) {
+    public BrowserTab(final JTabbedPane pane,final int tabIndex) {
     	
     	this.setLayout(new BorderLayout());    	
         
@@ -47,7 +47,8 @@ public class TabBrowser extends JPanel{
 
 			@Override
 			public void onTitleChange(TitleEvent event) {
-				pane.setTitleAt(tabIndex,event.getTitle());				
+				pane.setTitleAt(tabIndex,Helpers.trimTitle(event.getTitle()));	
+				pane.setToolTipTextAt(tabIndex, event.getTitle());
 			}
     		
     	});
@@ -82,7 +83,7 @@ public class TabBrowser extends JPanel{
             }
         });
         buttonPanel.add(locationTextField);
-        JButton goButton = new JButton("GO");
+        goButton = new JButton("GO");
         goButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 actionGo();
@@ -126,7 +127,7 @@ public class TabBrowser extends JPanel{
             }          
         });
     	
-    	// TODO: enable search
+
     	browser.loadURL(locationTextField.getText());
     	
     	browser.addLoadListener(new LoadAdapter() {
@@ -134,9 +135,13 @@ public class TabBrowser extends JPanel{
     		 @Override
     		    public void onFinishLoadingFrame(FinishLoadingEvent event) {
     		        if (event.isMainFrame()) {
-    		        	pane.setTitleAt(tabIndex,browser.getTitle());
+    		        	pane.setTitleAt(tabIndex,Helpers.trimTitle(browser.getTitle()));
+    		        	pane.setToolTipTextAt(tabIndex, browser.getTitle());
+    		        	locationTextField.setText(browser.getURL());
     		        	HistoryController.getInstance().addUrl(browser.getURL(), new Date());
+    		        	goButton.transferFocus();
     		        }
+    		        
     		    }
     		 
     	    @Override

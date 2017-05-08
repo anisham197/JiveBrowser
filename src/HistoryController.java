@@ -27,7 +27,7 @@ public class HistoryController {
 	
 	public void addUrl(String url, Date timestamp){
 		history.put(url, timestamp);
-		//TODO Write to file
+		
 		try {
 			Helpers.writeHistory(history);
 		} catch (IOException e) {

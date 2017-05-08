@@ -2,7 +2,7 @@
 public class RunBrowser {
 	
 	public static void main(String[] args) {
-     	TabHandler mainFrame = new TabHandler("Jive Browser");    	
+     	BrowserWindow mainFrame = new BrowserWindow("Jive Browser");    	
     	mainFrame.initialize();
     }
 }

@@ -14,43 +14,50 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
+import javax.swing.JOptionPane;
+
 public class Helpers
 {
     public static boolean ASC = true;
     public static boolean DESC = false;
     private static Gson gson = new Gson();
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final String ABOUT_INFORMATION = "Jive Browser v1.0\nA Java Internet Viewing Experience\nDeveloped by Arjun Rao and Anisha Mascarenhas";
     
-    public static void main(String[] args) throws ParseException
-    {
-
-        // Creating dummy unsorted map
-//        HashMap<String, Date> unsortMap = new HashMap<String, Date>();        
-//        unsortMap.put("www.facebook.com",sdf.parse("2018-1-23 17:22:00"));
-//        unsortMap.put("www.google.com",sdf.parse("2017-1-23 17:22:00"));	
-//        unsortMap.put("www.yahoo.com",sdf.parse("2015-1-23 17:22:00"));
-//        System.out.println("Before Writing......");
-//        printMap(unsortMap);
-        
-
-        
+  // Uncomment to Debug
+    
+//    public static void main(String[] args) throws ParseException
+//    {
+    
+    	 
 //
-//
-//        System.out.println("First Read......");
-//        HashMap<String, Date> sortedMapDesc;
-//		try {
-//			sortedMapDesc = readHistory();
-//			printMap(sortedMapDesc);
-//			sortedMapDesc.put("www.yahoo22.com",sdf.parse("2015-1-23 17:22:00"));
-//			System.out.println("Writing to file");
-//	        writeHistory(sortedMapDesc);								
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} 
+//        // Creating dummy unsorted map
+////        HashMap<String, Date> unsortMap = new HashMap<String, Date>();        
+////        unsortMap.put("www.facebook.com",sdf.parse("2018-1-23 17:22:00"));
+////        unsortMap.put("www.google.com",sdf.parse("2017-1-23 17:22:00"));	
+////        unsortMap.put("www.yahoo.com",sdf.parse("2015-1-23 17:22:00"));
+////        System.out.println("Before Writing......");
+////        printMap(unsortMap);
 //        
-
-    }
+//
+//        
+////
+////
+////        System.out.println("First Read......");
+////        HashMap<String, Date> sortedMapDesc;
+////		try {
+////			sortedMapDesc = readHistory();
+////			printMap(sortedMapDesc);
+////			sortedMapDesc.put("www.yahoo22.com",sdf.parse("2015-1-23 17:22:00"));
+////			System.out.println("Writing to file");
+////	        writeHistory(sortedMapDesc);								
+////		} catch (IOException e) {
+//
+////			e.printStackTrace();
+////		} 
+////        
+//
+//    }
 
     public static Map<String, Date> sortByDate(Map<String, Date> unsortMap, final boolean order)
     {
@@ -116,6 +123,16 @@ public class Helpers
     		pw.close();
     	}
     	
+    }
+    
+    public static String trimTitle(String title)
+    {
+    	String trimmedTitle = title;
+    	if(title.length() > 10)
+    	{
+    		trimmedTitle = title.substring(0, 8) + "...";
+    	}
+    	return trimmedTitle;
     }
     
     public static String printMap(Map<String, Date> map)

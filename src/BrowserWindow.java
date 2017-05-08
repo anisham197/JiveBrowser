@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class TabHandler extends JFrame {
+public class BrowserWindow extends JFrame {
 
     private final JTabbedPane pane = new JTabbedPane();
     private JMenuItem tabComponentsItem;
@@ -10,7 +10,7 @@ public class TabHandler extends JFrame {
     public static int tabCount = 0;
     
     
-    public TabHandler(String title) {
+    public BrowserWindow(String title) {
     	super(title);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    	
     	initMenuBar();
@@ -28,7 +28,7 @@ public class TabHandler extends JFrame {
      
     private void addTab(int i){
     	String title = "New Tab";
-        pane.add(title, new TabBrowser(pane,i));
+        pane.add(title, new BrowserTab(pane,i));
         initTabComponent(i);
         pane.setSelectedIndex(i);
     }
@@ -37,7 +37,7 @@ public class TabHandler extends JFrame {
     	
     	String html = HistoryController.getInstance().printHistory();
     	String title = "History";
-    	TabBrowser historyTab = new TabBrowser(pane,i);
+    	BrowserTab historyTab = new BrowserTab(pane,i);
     	historyTab.setHTML(html);
         pane.add(title,historyTab);
         initTabComponent(i);
@@ -95,6 +95,7 @@ public class TabHandler extends JFrame {
         JMenu viewMenu = new JMenu("View");
                 
         JMenuItem historyMenuItem = new JMenuItem("History");
+        historyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
         
         historyMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {            	            
@@ -106,8 +107,23 @@ public class TabHandler extends JFrame {
         viewMenu.add(historyMenuItem);
         viewMenu.setMnemonic(KeyEvent.VK_V);
         
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutMenuItem = new JMenuItem("About JiveBrowser");
+        aboutMenuItem.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(pane, Helpers.ABOUT_INFORMATION,"About Jive",JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+        	
+        });
+        helpMenu.add(aboutMenuItem);
+        helpMenu.setMnemonic(KeyEvent.VK_H);
+        
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);
+        menuBar.add(helpMenu);
         setJMenuBar(menuBar);
     }  
 
