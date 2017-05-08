@@ -1,3 +1,17 @@
+package com.jivebrowser.utils;
+
+/***
+*  File: Helpers.java
+*  Authors: Anisha Mascarenhas and Arjun Rao
+*  
+*  Description:
+*  Defines several helper methods used in various other components of the browser. 
+*  
+*  Package: com.jivebrowser.utils
+*  JiveBrowser v1.0 
+* */
+
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -59,6 +73,8 @@ public class Helpers
 //
 //    }
 
+    
+    // Used by HistoryController to sort history data by timestamps.
     public static Map<String, Date> sortByDate(Map<String, Date> unsortMap, final boolean order)
     {
 
@@ -92,6 +108,8 @@ public class Helpers
         return sortedMap;
     }
     
+    
+    // Used to read history data from file and set up HashMap
     public static HashMap<String,Date> readHistory() throws IOException
     {
     	HashMap<String,Date> history;
@@ -109,6 +127,7 @@ public class Helpers
     	return history;
     }
     
+    // Used to write history data from hashmap to file.
     public static void writeHistory(HashMap<String,Date> map) throws IOException
     {
     	//Writes map to file by serializing 
@@ -125,6 +144,7 @@ public class Helpers
     	
     }
     
+    // Used to set title of a tab and add ellipses ("...") in case of long titles
     public static String trimTitle(String title)
     {
     	String trimmedTitle = title;
@@ -135,6 +155,8 @@ public class Helpers
     	return trimmedTitle;
     }
     
+    
+    // Used to get history data as a html string.
     public static String printMap(Map<String, Date> map)
     {
     	String html="<!DOCTYPE html><html><head><title>History</title></head><body><h1>History</h1><table><tr><td>URL</td><td>Time</td></tr>";

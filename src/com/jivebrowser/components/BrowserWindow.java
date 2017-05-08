@@ -1,15 +1,31 @@
+package com.jivebrowser.components;
+
+
+/***
+ *  File: BrowserWindow.java
+ *  Authors: Anisha Mascarenhas and Arjun Rao
+ *  
+ *  Description:
+ *  BrowserWindow is the class that handles functionality of one entire window of the browser
+ *  One BrowserWindow contains a JTabbedPane for handling several tabs that can make up that window
+ *  
+ *  Package: com.jivebrowser.components
+ *  JiveBrowser v1.0 
+ * */
+
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import com.jivebrowser.utils.*;
+import com.jivebrowser.controllers.*;
 
 public class BrowserWindow extends JFrame {
 
     private final JTabbedPane pane = new JTabbedPane();
-    private JMenuItem tabComponentsItem;
-    private JMenuItem scrollLayoutItem;
     public static int tabCount = 0;
     
-    
+    // Sets up a BrowserWindow with a given window title. Used in RunBrowser to start first browser window. 
     public BrowserWindow(String title) {
     	super(title);
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    	
@@ -17,6 +33,8 @@ public class BrowserWindow extends JFrame {
     	addTab(0);
     }
     
+    // initialize () is called in RunBrowser after creating a BrowserWindow. 
+    // Sets up Swing parameters to display the browser window.
     public void initialize() {
         pane.setTabLayoutPolicy(JTabbedPane.WRAP_TAB_LAYOUT);
         setSize(new Dimension(1024, 768));
@@ -25,7 +43,10 @@ public class BrowserWindow extends JFrame {
     	getContentPane().add(pane, BorderLayout.CENTER);
         setVisible(true);
     }
-     
+    
+    
+    // Used to add a new tab to the window 
+    // parameter i is a unique tab identifier in sequential order.
     private void addTab(int i){
     	String title = "New Tab";
         pane.add(title, new BrowserTab(pane,i));
@@ -33,6 +54,7 @@ public class BrowserWindow extends JFrame {
         pane.setSelectedIndex(i);
     }
     
+    // Used to add a new tab and open the browser's history (Refer HistoryController.java)
     private void addHistoryTab(int i){
     	
     	String html = HistoryController.getInstance().printHistory();
@@ -43,15 +65,21 @@ public class BrowserWindow extends JFrame {
         initTabComponent(i);
         pane.setSelectedIndex(i);
     }
-     
+    
+    // Initializes a tab wit close button and title being set using TabButtonComponent Class
+    // Refer to Swing JTabbedPane examples on official JavaDocs page.
     private void initTabComponent(int i) {
         pane.setTabComponentAt(i,
                  new TabButtonComponent(pane));
     }    
  
-    
+    // Initializes Menu Bar with File, View and Help Menus and sub menu items.
     public void initMenuBar() {
+    	
+    	// Initializes the main menu bar
     	JMenuBar menuBar = new JMenuBar();
+    	
+    	//Code for File Menu Starts Here
         JMenu fileMenu = new JMenu("File");
         fileMenu.setMnemonic(KeyEvent.VK_F);
         JMenuItem addTabMenuItem = new JMenuItem("New Tab");
@@ -90,7 +118,10 @@ public class BrowserWindow extends JFrame {
         fileMenu.add(addTabMenuItem);
         fileMenu.add(closeTabMenuItem);
         fileMenu.add(closeWindowMenuItem);
-        fileMenu.setMnemonic(KeyEvent.VK_F);
+        fileMenu.setMnemonic(KeyEvent.VK_F);    	
+        
+        //Code for File Menu Ends Here                
+    	//Code for View Menu Starts Here
         
         JMenu viewMenu = new JMenu("View");
                 
@@ -106,6 +137,9 @@ public class BrowserWindow extends JFrame {
        
         viewMenu.add(historyMenuItem);
         viewMenu.setMnemonic(KeyEvent.VK_V);
+    	
+        // Code for View Menu Ends Here
+    	// Code for Help Menu Starts Here
         
         JMenu helpMenu = new JMenu("Help");
         JMenuItem aboutMenuItem = new JMenuItem("About JiveBrowser");
@@ -120,6 +154,11 @@ public class BrowserWindow extends JFrame {
         });
         helpMenu.add(aboutMenuItem);
         helpMenu.setMnemonic(KeyEvent.VK_H);
+        
+    	// Code for Help Menu Ends Here
+        
+        
+        // Add all sub menus to menubar and menubar to Frame
         
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);

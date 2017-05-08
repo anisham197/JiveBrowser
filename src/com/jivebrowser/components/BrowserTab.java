@@ -1,3 +1,24 @@
+package com.jivebrowser.components;
+
+
+/***
+ *  File: BrowserTab.java
+ *  Authors: Anisha Mascarenhas and Arjun Rao
+ *  
+ *  Description:
+ *  BrowserTab is the class that handles functionality of one tab of the browser
+ *  One browser tab contains its own URL bar (Called locationTextField) and navigation buttons
+ *  It uses a reference to the parent JTabbedPane (obtainted via the constructor) and 
+ *  a unique Tab identifier (tabIndex).
+ *  
+ *  Package: com.jivebrowser.components
+ *  JiveBrowser v1.0 
+ * */
+
+
+
+import com.jivebrowser.utils.*;
+import com.jivebrowser.controllers.*;
 import com.teamdev.jxbrowser.chromium.Browser;
 import com.teamdev.jxbrowser.chromium.DefaultLoadHandler;
 import com.teamdev.jxbrowser.chromium.LoadParams;
@@ -14,35 +35,45 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
- 
+
+
 
 public class BrowserTab extends JPanel{
 
 	
-	// These are the buttons for iterating through the page list.
+	// These are the buttons for iterating through the navigation-history list.
     private JButton backButton, forwardButton,goButton;
+    // Browser is a java wrapper around Chromium provided by JxBrowser.
     private Browser browser = new Browser();
-    // Page location text field.
+    // TextField to store URL
     private JTextField locationTextField;
+   
+    // Store Parent references
     private final JTabbedPane pane; 
     private final int tabIndex; 
     
+    //Uses URL below to perform google search on pages that result in 404 errors.
     private static final String GOOGLE_SEARCH = "https://www.google.com/search?q=";
-    // 
+     
     
      
-    // Constructor for Web Browser.
+    // Constructor for a Browser Tab.
     public BrowserTab(final JTabbedPane pane,final int tabIndex) {
     	
     	this.setLayout(new BorderLayout());    	
         
-    	BrowserView mBrowserView = new BrowserView(browser);        
+    	BrowserView mBrowserView = new BrowserView(browser);  
+    	//BrowserView is the main swing component that renders web pages using WebKit internally
         mBrowserView.setVisible(true);               
+        
         createButtonPanel();
+        
         add(mBrowserView,BorderLayout.CENTER);
+        
         this.pane = pane;
         this.tabIndex = tabIndex;
         
+        //Title listener handles changing of Tab titles dynamically. 
         browser.addTitleListener(new TitleListener(){
 
 			@Override
@@ -55,6 +86,7 @@ public class BrowserTab extends JPanel{
 
     }
     
+    //Swing Code to generate the URL bar and navigation buttons
     private void createButtonPanel()
     {
     	JPanel buttonPanel = new JPanel();
@@ -99,7 +131,7 @@ public class BrowserTab extends JPanel{
     	browser.loadHTML(html);
     }
     
- // Load and show the page specified in the location text field.
+    // Load and show the page specified in the location text field.
     private void actionGo() {    	
     	browser.setLoadHandler(new DefaultLoadHandler() {
             public boolean onLoad(LoadParams params) {
@@ -127,13 +159,14 @@ public class BrowserTab extends JPanel{
             }          
         });
     	
-
+    	//load URL entered at the textField or perform a google search if it fails to load. 
     	browser.loadURL(locationTextField.getText());
     	
     	browser.addLoadListener(new LoadAdapter() {
     		
     		 @Override
     		    public void onFinishLoadingFrame(FinishLoadingEvent event) {
+    			 //Handle successful load and update History and tab title
     		        if (event.isMainFrame()) {
     		        	pane.setTitleAt(tabIndex,Helpers.trimTitle(browser.getTitle()));
     		        	pane.setToolTipTextAt(tabIndex, browser.getTitle());
@@ -146,7 +179,8 @@ public class BrowserTab extends JPanel{
     		 
     	    @Override
     	    public void onFailLoadingFrame(FailLoadingEvent event) {
-    	        NetError errorCode = event.getErrorCode();
+    	        //Handle failed loads by performing Google Search instead
+    	    	NetError errorCode = event.getErrorCode();
     	        if (errorCode == NetError.NAME_NOT_RESOLVED) {
     	        	browser.loadURL(GOOGLE_SEARCH + locationTextField.getText());
     	        	HistoryController.getInstance().addUrl(browser.getURL(), new Date());
