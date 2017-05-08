@@ -95,6 +95,7 @@ public class BrowserWindow extends JFrame {
         JMenu viewMenu = new JMenu("View");
                 
         JMenuItem historyMenuItem = new JMenuItem("History");
+        historyMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, InputEvent.CTRL_MASK));
         
         historyMenuItem.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {            	            
@@ -106,8 +107,23 @@ public class BrowserWindow extends JFrame {
         viewMenu.add(historyMenuItem);
         viewMenu.setMnemonic(KeyEvent.VK_V);
         
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutMenuItem = new JMenuItem("About JiveBrowser");
+        aboutMenuItem.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(pane, Helpers.ABOUT_INFORMATION,"About Jive",JOptionPane.INFORMATION_MESSAGE);
+				
+			}
+        	
+        });
+        helpMenu.add(aboutMenuItem);
+        helpMenu.setMnemonic(KeyEvent.VK_H);
+        
         menuBar.add(fileMenu);
         menuBar.add(viewMenu);
+        menuBar.add(helpMenu);
         setJMenuBar(menuBar);
     }  
 
