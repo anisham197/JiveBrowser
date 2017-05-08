@@ -1,5 +1,3 @@
-
- 
 import javax.swing.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
@@ -11,14 +9,14 @@ import java.awt.event.*;
  * Contains a JLabel to show the text and 
  * a JButton to close the tab it belongs to 
  */
-public class TabExample extends JPanel {
+public class TabButtonComponent extends JPanel {
     private final JTabbedPane pane;
  
     public static void main(String[] args)
     {
     	
     }
-    public TabExample(final JTabbedPane pane) {
+    public TabButtonComponent(final JTabbedPane pane) {
         //unset default FlowLayout' gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         if (pane == null) {
@@ -30,7 +28,7 @@ public class TabExample extends JPanel {
         //make JLabel read titles from JTabbedPane
         JLabel label = new JLabel() {
             public String getText() {
-                int i = pane.indexOfTabComponent(TabExample.this);
+                int i = pane.indexOfTabComponent(TabButtonComponent.this);
                 if (i != -1) {
                     return pane.getTitleAt(i);
                 }
@@ -70,9 +68,13 @@ public class TabExample extends JPanel {
         }
  
         public void actionPerformed(ActionEvent e) {
-            int i = pane.indexOfTabComponent(TabExample.this);
+            int i = pane.indexOfTabComponent(TabButtonComponent.this);
             if (i != -1) {
                 pane.remove(i);
+                BrowserWindow.tabCount--;
+            }
+            if( pane.getTabCount() == 0){
+            	System.exit(0);
             }
         }
  
