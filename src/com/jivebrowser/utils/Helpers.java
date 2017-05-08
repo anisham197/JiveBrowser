@@ -19,16 +19,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Type;
-import java.text.ParseException;
-
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
-
-import javax.swing.JOptionPane;
 
 public class Helpers
 {

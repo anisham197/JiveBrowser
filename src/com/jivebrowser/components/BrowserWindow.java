@@ -22,7 +22,11 @@ import com.jivebrowser.controllers.*;
 
 public class BrowserWindow extends JFrame {
 
-    private final JTabbedPane pane = new JTabbedPane();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2709500178705880563L;
+	private final JTabbedPane pane = new JTabbedPane();
     public static int tabCount = 0;
     
     // Sets up a BrowserWindow with a given window title. Used in RunBrowser to start first browser window. 

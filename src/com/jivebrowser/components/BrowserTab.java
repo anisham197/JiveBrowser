@@ -41,6 +41,10 @@ import java.util.*;
 public class BrowserTab extends JPanel{
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8970636815130099199L;
 	// These are the buttons for iterating through the navigation-history list.
     private JButton backButton, forwardButton,goButton;
     // Browser is a java wrapper around Chromium provided by JxBrowser.

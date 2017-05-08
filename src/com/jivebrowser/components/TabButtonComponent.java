@@ -15,7 +15,6 @@ package com.jivebrowser.components;
 
 
 import javax.swing.*;
-import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
 import java.awt.event.*;
@@ -26,7 +25,11 @@ import java.awt.event.*;
  * a JButton to close the tab it belongs to 
  */
 public class TabButtonComponent extends JPanel {
-    private final JTabbedPane pane;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7425412121740664421L;
+	private final JTabbedPane pane;
  
     public static void main(String[] args)
     {
@@ -43,7 +46,12 @@ public class TabButtonComponent extends JPanel {
          
         //make JLabel read titles from JTabbedPane
         JLabel label = new JLabel() {
-            public String getText() {
+            /**
+			 * 
+			 */
+			private static final long serialVersionUID = -767484176242078660L;
+
+			public String getText() {
                 int i = pane.indexOfTabComponent(TabButtonComponent.this);
                 if (i != -1) {
                     return pane.getTitleAt(i);
@@ -63,7 +71,12 @@ public class TabButtonComponent extends JPanel {
     }
  
     private class TabButton extends JButton implements ActionListener {
-        public TabButton() {
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 5724756663534675746L;
+
+		public TabButton() {
             int size = 17;
             setPreferredSize(new Dimension(size, size));
             setToolTipText("close this tab");
