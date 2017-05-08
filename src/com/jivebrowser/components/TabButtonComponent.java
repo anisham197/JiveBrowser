@@ -1,3 +1,19 @@
+package com.jivebrowser.components;
+
+/***
+ *  File: TabButtonComponent.java
+ *  Authors: Anisha Mascarenhas and Arjun Rao
+ *  
+ *  Description:
+ *  This file basically implements the handle for one tab. 
+ *  It is responsible for drawing a rectangle and a cross mark in the box.
+ *  It also contains a jLabel for the title of the tab.
+ *  
+ *  Package: com.jivebrowser.components
+ *  JiveBrowser v1.0 
+ * */
+
+
 import javax.swing.*;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
